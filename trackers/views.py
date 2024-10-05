@@ -59,6 +59,7 @@ class TaskCreateAPIView(CreateAPIView):
     """Generic-класс для создания задачи"""
 
     serializer_class = TaskSerializer
+    permission_classes = (IsAuthenticated, IsStaff)
 
     def perform_create(self, serializer):
         new_task = serializer.save()
@@ -71,12 +72,14 @@ class TaskUpdateAPIView(UpdateAPIView):
 
     serializer_class = TaskSerializer
     queryset = Task.objects.all()
+    permission_classes = (IsAuthenticated, IsStaff)
 
 
 class TaskDeleteAPIView(DestroyAPIView):
     """Generic-класс для удаления задачи"""
 
     queryset = Task.objects.all()
+    permission_classes = (IsAuthenticated, IsStaff)
 
 
 class EmployeeTrackAPIView(ListAPIView):
