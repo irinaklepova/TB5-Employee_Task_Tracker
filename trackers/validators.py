@@ -10,9 +10,7 @@ class RelatedTaskValidator:
     def __call__(self, value):
         parent_task = value.get(self.field)
         is_related = value.get("is_related")
-        if (parent_task is not None and not is_related) or (
-            parent_task is None and is_related
-        ):
+        if (parent_task is not None and not is_related) or (parent_task is None and is_related):
             raise ValidationError("Связанная задача должна иметь родительскую")
 
 
@@ -43,6 +41,4 @@ class NestingOfTaskValidator:
         if parent_task is not None:
             if parent_task.parent_task is not None:
                 if parent_task.parent_task.parent_task is not None:
-                    raise ValidationError(
-                        "Уровень вложенности задачи должен быть не более 3"
-                    )
+                    raise ValidationError("Уровень вложенности задачи должен быть не более 3")
