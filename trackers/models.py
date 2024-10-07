@@ -9,9 +9,10 @@ class Employee(models.Model):
     user = models.ForeignKey(User, **NULLABLE, on_delete=models.CASCADE, verbose_name="Cотрудник")
     full_name = models.CharField(max_length=200, **NULLABLE, verbose_name="Фамилия, имя, отчество")
     position = models.CharField(max_length=255, **NULLABLE, verbose_name="Должность")
+    chat_id = models.CharField(**NULLABLE, verbose_name="ID чата Telegram")
 
     def __str__(self):
-        return f"{self.full_name} - {self.position}"
+        return f"{self.full_name} ({self.chat_id}) - {self.position}"
 
     class Meta:
         verbose_name = "Сотрудник"
@@ -58,16 +59,13 @@ class Task(models.Model):
         related_name="parent",
         verbose_name="Родительская задача",
     )
-    is_active = models.BooleanField(
-        default=False, verbose_name="Признак активной задачи"
-    )
-    is_related = models.BooleanField(
-        default=False, verbose_name="Признак связанной задачи"
-    )
+    is_active = models.BooleanField(default=False, verbose_name="Признак активной задачи")
+    is_related = models.BooleanField(default=False, verbose_name="Признак связанной задачи")
+    start_execution = models.DateTimeField(**NULLABLE, verbose_name="Дата и время начала выполнения")
 
     def __str__(self):
         return (
-            f"{self.title} {self.parent_task} {self.executor} "
+            f"{self.title} {self.parent_task} {self.executor} {self.start_execution}"
             f"{self.time_complete} {self.status} {self.is_related} {self.is_active}"
         )
 
