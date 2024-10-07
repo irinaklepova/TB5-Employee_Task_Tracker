@@ -13,7 +13,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Employee
-        fields = ("full_name", "position")
+        fields = ("id", "full_name", "position")
 
 
 class TaskSerializer(serializers.ModelSerializer):
