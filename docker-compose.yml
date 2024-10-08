@@ -37,5 +37,35 @@ services:
     expose:
       - "6379"
 
+  celery:
+    build: .
+    tty: true
+    command: celery -A config worker -l INFO -P eventlet
+    restart: on-failure
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+      - db
+      - app
+    env_file:
+      - .env
+
+
+  celery-beat:
+    build: .
+    tty: true
+    command: celery -A config beat -l INFO -S django
+    restart: on-failure
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+      - db
+      - app
+      - celery
+    env_file:
+      - .env
+
 volumes:
   pg_data:
